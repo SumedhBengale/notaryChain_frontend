@@ -1,42 +1,37 @@
-import React from 'react';
 import {
-  ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-} from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
+  createBrowserRouter,
+  Route,
+  RouterProvider,
+  Routes,
+} from "react-router-dom";
+import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import { ChakraProvider, theme } from "@chakra-ui/react";
+import Dashboard from "./pages/Dashboard";
+import Signup from "./pages/Signup";
 
-function App() {
-  return (
-    <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
-            <Logo h="40vmin" pointerEvents="none" />
-            <Text>
-              Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-            </Text>
-            <Link
-              color="teal.500"
-              href="https://chakra-ui.com"
-              fontSize="2xl"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn Chakra
-            </Link>
-          </VStack>
-        </Grid>
-      </Box>
-    </ChakraProvider>
-  );
+// 3️⃣ Router singleton created
+const router = createBrowserRouter([
+  { path: "*", Component: Root },
+]);
+
+// 4️⃣ RouterProvider added
+export default function App() {
+  return <ChakraProvider theme={theme}>
+  <RouterProvider router={router} />
+  </ChakraProvider>;
 }
 
-export default App;
+// 1️⃣ Changed from App to Root
+function Root() {
+
+  return (
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="*" element={<h1>Not Found</h1>} />
+    </Routes>
+  );
+}
